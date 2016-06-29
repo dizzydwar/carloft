@@ -13,7 +13,7 @@ Version: 1.0
 /////////////////////////// RESETS ///////////////////////////
 */
 body {
-  background-color: red;
+  background-color: green;
 }
 body:not(.custom-background-image).admin-bar:before {
   top: 0;
