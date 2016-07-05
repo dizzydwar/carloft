@@ -178,10 +178,33 @@ body:not(.custom-background-image):after {
   width: 100%;
   padding: 0;
 }
+#masthead #logo1,
+#masthead #logo2 {
+  height: 100px;
+  width: 200px;
+  background-repeat: no-repeat;
+  text-indent: -9999px;
+  position: relative;
+  left: -200px;
+}
+#masthead #logo1 {
+  background-image: url("images/assets/carLoft_logo_1.svg");
+  background-position: right;
+  top: 100px;
+}
+#masthead #logo2 {
+  background-image: url("images/assets/carLoft_logo_2.svg");
+  top: 50px;
+}
 #masthead #menu-toggle {
   display: block;
   position: absolute;
   right: 0;
+  width: 50px;
+  height: 50px;
+  background-color: #B0C709;
+  border-radius: 0;
+  border: none;
 }
 #masthead .site-header-menu {
   display: none;

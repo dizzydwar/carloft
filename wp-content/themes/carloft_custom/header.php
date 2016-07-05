@@ -31,7 +31,9 @@
 
                      <header id="masthead" class="site-header" role="banner">
                             <div class="site-header-main">
-                                   <a href="<?php  echo home_url(); ?>" id="logo" class=""><?php echo bloginfo("title"); ?></a>
+                                   
+                                   <a href="<?php  echo home_url(); ?>" id="logo1" class=""><?php echo bloginfo("title"); ?></a>
+                                   <a href="<?php  echo home_url(); ?>" id="logo2" class=""><?php echo bloginfo("title"); ?></a>
                                     <?php if ( has_nav_menu( 'primary' ) || has_nav_menu( 'social' ) ) : ?>
 
                                           <button id="menu-toggle" class="menu-toggle"><?php _e( 'Menu', 'twentysixteen' ); ?></button>
