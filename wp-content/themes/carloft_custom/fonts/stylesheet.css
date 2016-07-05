@@ -12,6 +12,16 @@
 }
 
 @font-face {
+    font-family: 'avenir_light';
+    src: url('LTe50336.eot') format('eot'),
+         url('LTe50336.svg') format('svg'),
+         url('LTe50336.ttf') format('ttf'),
+         url('LTe50336.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
     font-family: 'avenir_regular';
     src: url('lte50338-webfont.eot') format('eot'),
          url('lte50338-webfont.svg') format('svg'),

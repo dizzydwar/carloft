@@ -19,60 +19,55 @@
               <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
 	<?php endif; ?>
               
-        <link href="<?php get_site_url(); ?>/wp-content//bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
 	<?php wp_head(); ?>
 </head>
 
 <body <?php body_class(); ?>>
 <div id="page" class="site">
-	
-       <a class="skip-link screen-reader-text" href="#content"><?php _e( 'Skip to content', 'twentysixteen' ); ?></a>
-
-       <header id="masthead" class="site-header" role="banner">
-              <div class="site-header-main">
-                     <a href="<?php  echo home_url(); ?>" id="logo" class="ir">corporate, concept & character</a>
-                      <?php if ( has_nav_menu( 'primary' ) || has_nav_menu( 'social' ) ) : ?>
-                     
-                            <button id="menu-toggle" class="menu-toggle"><?php _e( 'Menu', 'twentysixteen' ); ?></button>
-
-                            <div id="site-header-menu" class="site-header-menu">
-                                   <?php if ( has_nav_menu( 'primary' ) ) : ?>
-                                          
-                                          <div id="my_menu_toggle">
-                                                 <p class="arrow"><</p>
-                                                 <p class="brackets">menu</p>
-                                          </div>
-                                          <div id="nav_clip">
-                                                 <p id="current_page"><?php echo the_title(); ?></p>
-                                                 <nav id="site-navigation" class="main-navigation" role="navigation" aria-label="<?php esc_attr_e( 'Primary Menu', 'twentysixteen' ); ?>">
-                                                        <?php
-                                                               wp_nav_menu( array(
-                                                                      'theme_location' => 'primary',
-                                                                      'menu_class'     => 'primary-menu',
-                                                               ) );
-                                                        ?>
-                                                 </nav><!-- .main-navigation -->
-                                          </div>
-                                   <?php endif; ?>
-
-                                   <?php if ( has_nav_menu( 'social' ) ) : ?>
-                                          <nav id="social-navigation" class="social-navigation" role="navigation" aria-label="<?php esc_attr_e( 'Social Links Menu', 'twentysixteen' ); ?>">
-                                                 <?php
-                                                        wp_nav_menu( array(
-                                                               'theme_location' => 'social',
-                                                               'menu_class'     => 'social-links-menu',
-                                                               'depth'          => 1,
-                                                               'link_before'    => '<span class="screen-reader-text">',
-                                                               'link_after'     => '</span>',
-                                                        ) );
-                                                 ?>
-                                          </nav><!-- .social-navigation -->
-                                   <?php endif; ?>
-                              </div><!-- .site-header-menu -->
-                      <?php endif; ?>
-              </div><!-- .site-header-main -->
-
-       </header><!-- .site-header -->
-       
        <div class="site-inner container-fluid">
-		<div id="content" class="site-content">
+              <div id="content" class="site-content">
+
+                     <a class="skip-link screen-reader-text" href="#content"><?php _e( 'Skip to content', 'twentysixteen' ); ?></a>
+
+                     <header id="masthead" class="site-header" role="banner">
+                            <div class="site-header-main">
+                                   <a href="<?php  echo home_url(); ?>" id="logo" class=""><?php echo bloginfo("title"); ?></a>
+                                    <?php if ( has_nav_menu( 'primary' ) || has_nav_menu( 'social' ) ) : ?>
+
+                                          <button id="menu-toggle" class="menu-toggle"><?php _e( 'Menu', 'twentysixteen' ); ?></button>
+
+                                          <div id="site-header-menu" class="site-header-menu">
+                                                 <?php if ( has_nav_menu( 'primary' ) ) : ?>
+
+                                                        <div id="nav_clip">
+                                                               <nav id="site-navigation" class="main-navigation" role="navigation" aria-label="<?php esc_attr_e( 'Primary Menu', 'twentysixteen' ); ?>">
+                                                                      <?php
+                                                                             wp_nav_menu( array(
+                                                                                    'theme_location' => 'primary',
+                                                                                    'menu_class'     => 'primary-menu',
+                                                                             ) );
+                                                                      ?>
+                                                               </nav><!-- .main-navigation -->
+                                                        </div>
+                                                 <?php endif; ?>
+
+                                                 <?php if ( has_nav_menu( 'social' ) ) : ?>
+                                                        <nav id="social-navigation" class="social-navigation" role="navigation" aria-label="<?php esc_attr_e( 'Social Links Menu', 'twentysixteen' ); ?>">
+                                                               <?php
+                                                                      wp_nav_menu( array(
+                                                                             'theme_location' => 'social',
+                                                                             'menu_class'     => 'social-links-menu',
+                                                                             'depth'          => 1,
+                                                                             'link_before'    => '<span class="screen-reader-text">',
+                                                                             'link_after'     => '</span>',
+                                                                      ) );
+                                                               ?>
+                                                        </nav><!-- .social-navigation -->
+                                                 <?php endif; ?>
+                                            </div><!-- .site-header-menu -->
+                                    <?php endif; ?>
+                            </div><!-- .site-header-main -->
+
+                     </header><!-- .site-header -->
+       
+       

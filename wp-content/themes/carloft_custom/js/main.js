@@ -227,70 +227,53 @@ var imgWidth = 0;
 var img_height = 0;
 var num_img_shown = 1;
 var stored_img_height = 0;
+var slide_height = 0;
 
-function scale_slideshow(){
-       $(".slideshow").each(function(index){
-              container = $(this).find(".slide_container");
-
-              // set image width
-              imgWidth = $(".slide_content").width() / num_img_shown;
-              img_height = imgWidth * img_ratio;
-              
-              stored_img_height = 0;
-              if(stored_img_height < img_height){
-                     stored_img_height = img_height;
-              }
-              
-              // calculate container width
-              $(this).find(".slide").width(imgWidth);
-
-              // set all images and container to this height
-              $(this).find(".slide").height(stored_img_height);                      
-              $(this).find(".slide_content").height(stored_img_height);
-
-              //reset the slider so the first image is still visible          
-              var position = $(this).find(".slide.current").index();
-              var offset = position * imgWidth;
-              container.css({'left':-offset+'px'});
-              
-              //scale buttons
-              scale_buttons();
-       });
-};
-
-function scale_buttons(){
-       var s_height = $(".gallery_button").closest(".slideshow").find(".slide").height();
-       $(".gallery_button").each(function(){
-             $(this).height(s_height); 
-       });
+function set_slide_height(){
+       var wh = $(window).innerHeight();
+       var big_box_height = $("#big_box_row").innerHeight();
+       var admin_bar_height = 0;
+       
+       if($("#wpadminbar").length >= 1){
+              admin_bar_height = $("#wpadminbar").innerHeight();
+       }
+       slide_height = wh - big_box_height - admin_bar_height;
 }
 
 function setup_slideshow(){
+       set_slide_height();
+       
        $(".slideshow").each(function(index){
-              $(this).prepend('<p class="gallery_button prev ir">prev</p>');
-              $(this).prepend('<p class="gallery_button next ir">next</p>');
-              
-              console.log($(this).width());
               
               var container = $(this).find(".slide_container");
 
-              // set image width
+              // set imageWidth
               imgWidth = $(this).find(".slide_content").width() / num_img_shown;
-              img_height = imgWidth * img_ratio;
+              $(this).find(".slide").width(imgWidth);
               
-              if(stored_img_height < img_height){
-                     stored_img_height = img_height;
+              // if slide_height is NOT defined 
+              if(slide_height  === 0 && slide_height === undefined){
+                     stored_img_height = 0;
+                     img_height = imgWidth * img_ratio;
+                     
+                     //find highest image
+                     if(stored_img_height < img_height){
+                            stored_img_height = img_height;
+                     }
+              
+                     slide_height = stored_img_height;
               }
               
-              // set img width
-              $(this).find(".slide").width(imgWidth);
 
               // set img and container height
-              $(this).find(".slide").height(stored_img_height);                      
-              $(this).find(".slide_content").height(stored_img_height);
+              $(this).find(".slide").height(slide_height);                      
+              $(this).find(".slide_content").height(slide_height);
 
               // if more than one image
               if($(this).find(".slide").length > 1){
+                     
+                     $(this).prepend('<p class="gallery_button prev ir">prev</p>');
+                     $(this).prepend('<p class="gallery_button next ir">next</p>');
 
                      // depending on how many images are shown at once...
                      // clone the last images and put them at the front
@@ -386,4 +369,49 @@ function setup_slideshow(){
        });
 
        //smooth_load();
+}
+
+
+function scale_slideshow(){
+       set_slide_height();
+       $(".slideshow").each(function(index){
+              container = $(this).find(".slide_container");
+
+              // set imageWidth
+              imgWidth = $(".slide_content").width() / num_img_shown;
+              $(this).find(".slide").width(imgWidth);
+              
+              // if slide_height is NOT defined 
+              if(slide_height  === 0 && slide_height === undefined){
+                     stored_img_height = 0;
+                     img_height = imgWidth * img_ratio;
+                     
+                     //find highest image
+                     if(stored_img_height < img_height){
+                            stored_img_height = img_height;
+                     }
+              
+                     slide_height = stored_img_height;
+              }
+              
+              // set all images and container to this height
+              $(this).find(".slide").height(slide_height);                      
+              $(this).find(".slide_content").height(slide_height);
+              
+              if($(this).find(".slide").length > 1){
+                     //reset the slider so the first image is still visible          
+                     var position = $(this).find(".slide.current").index();
+                     var offset = position * imgWidth;
+                     container.css({'left':-offset+'px'});
+              }
+              //scale buttons
+              scale_buttons();
+       });
+};
+
+function scale_buttons(){
+       var s_height = $(".gallery_button").closest(".slideshow").find(".slide").height();
+       $(".gallery_button").each(function(){
+             $(this).height(s_height); 
+       });
 }

@@ -110,7 +110,7 @@
 
 	// Add the default ARIA attributes for the menu toggle and the navigations.
 	function onResizeARIA() {
-		if ( window.innerWidth < 910 ) {
+		if ( window.innerWidth < 0 ) {
 			if ( menuToggle.hasClass( 'toggled-on' ) ) {
 				menuToggle.attr( 'aria-expanded', 'true' );
 			} else {
