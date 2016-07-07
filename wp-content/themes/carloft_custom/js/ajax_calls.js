@@ -1,8 +1,3 @@
-
-function AnimateRotate() {
-       $( "#get_random" ).addClass("busy");
-}
-
 function ajax_get_random(){
        $.ajax({
               url: ajaxcalls.ajaxurl,
@@ -18,3 +13,6 @@ function ajax_get_random(){
               }
 	});
 }
+                            function AnimateRotate() {
+                                   $( "#get_random" ).addClass("busy");
+                            }

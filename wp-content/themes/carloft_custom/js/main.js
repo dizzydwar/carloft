@@ -1,14 +1,14 @@
 var $ = jQuery.noConflict();
 
 var w_height;
-var scrolled;
+var scrolled =0;
 var preview_box_width;
 var preview_entry_height;
+var at_the_top;
 var ratio;
 
               
 $(document).ready(function() {
-       at_the_top = true;
        resize();
        click_handlers();
        setup_slideshow();
@@ -18,6 +18,7 @@ $( window ).resize(function() {
 });
 $( window ).scroll(function() {
        scrolled = $("body").scrollTop();
+       scroll_box_offset();
 });
 
 function resize(){
@@ -35,12 +36,126 @@ function click_handlers(){
        get_random();
        toggle_menu();
        menu_click();
+       
+       big_box_hover();
 }
 
 
 
 
+function big_box_hover(){
+       var id;
+       var sub_row;
+       
+       $(".big_box").hover(function(e){
+              $(this).addClass("active");
+              
+              id =$(this).attr("id");
+              
+              sub_row = $(".big_box_sub_menu."+id);
+              
+              
+              $(".big_box_sub_menu").css("zIndex",9);
+              sub_row.css("zIndex",10);
+              
+              show_sub_menu(sub_row);
+              
+       });
+       
+       
+       $("#big_box_row").hover(function(){
+              
+       },function(){
+              hide_sub_box();
+       });
+}
 
+
+function show_sub_menu(ele){
+       var sub_box =$("#big_box_sub_row");
+       
+       if(sub_box.hasClass("active")=== false){
+              show_sub_box(); 
+       }
+       
+       ele.stop().animate({
+              opacity: 1,
+              bottom: 0
+              }, 500, function() {
+                     ele.addClass("active");
+                     $(".big_box_sub_menu").not(ele).css("bottom","100%");
+                     $(".big_box_sub_menu").not(ele).css("opacity",0);
+              });
+      
+};
+
+function show_sub_box(){
+       
+       var sub_box =$("#big_box_sub_row");
+       
+       if(sub_box.hasClass(".active") === false ){
+              
+              sub_box.css("display","block");
+              var go_to_height = $(".big_box_sub_menu").outerHeight();
+              
+              
+              sub_box.stop().animate({
+                     height: go_to_height,
+                     opacity: 1
+                     }, 200, "easeInExpo", function() {
+                            
+                     }); 
+                     
+              if(scrolled === 0){
+                     offset_big_box();
+              }
+       }
+};
+
+function scroll_box_offset(){
+       var dif = $(".big_box_sub_menu").outerHeight() - scrolled;
+       if(dif >= 0){
+              $("#big_box_row").css("marginTop",-dif);  
+       }
+}
+
+function offset_big_box(){
+       
+       $("#big_box_row").stop().animate({
+              marginTop: -$(".big_box_sub_menu").outerHeight()
+              }, 500, "easeOutExpo", function() {
+
+              }); 
+              
+};
+
+function hide_sub_box(){
+       var sub_box =$("#big_box_sub_row");
+       
+       if(scrolled === 0){
+              reset_big_box();
+       }
+       
+       sub_box.stop().animate({
+              height: 0,
+              opacity:0
+              }, 500, "easeOutExpo", function() {
+                     sub_box.css("display","none");
+                     $(".big_box_sub_menu").css("opacity",0);
+              }); 
+              
+       
+}
+
+function reset_big_box(){
+       
+       $("#big_box_row").animate({
+              marginTop: 0
+              }, 500, "easeOutExpo", function() {
+
+              }); 
+              
+};
 /*
 function collaps_start_screen(){
        var seperator_bot_position = $(".block_separator").offset().top;
@@ -318,7 +433,7 @@ function setup_slideshow(){
 
               var newLeft = container.position().left+(imgWidth);//calculate the new position which is the current position plus the width of one image
 
-              container.animate({'left':newLeft+'px'},function(){//slide to the new position
+              container.stop().animate({'left':newLeft+'px'},500,"easeInOutQuint",function(){//slide to the new position
                      if(container.children('.slide:nth-child(2)').hasClass("current")){
                             container.css({'left':- (imgCount - (num_img_shown * 2))*imgWidth+'px'});
 
@@ -348,7 +463,7 @@ function setup_slideshow(){
 
               var newLeft = container.position().left-(imgWidth);//calculate the new position which is the current position minus the width of one image
 
-              container.animate({'left':newLeft+'px'},function(){//slide to the new position...
+              container.stop().animate({'left':newLeft+'px'},500,"easeInOutQuint",function(){//slide to the new position...
 
                      if(container.children(".last").hasClass("current")){
                             container.css({'left':- num_img_shown*imgWidth+'px'});
