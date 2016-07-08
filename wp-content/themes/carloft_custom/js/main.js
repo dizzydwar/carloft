@@ -1,6 +1,7 @@
 var $ = jQuery.noConflict();
 
 var w_height;
+var w_width;
 var scrolled =0;
 var preview_box_width;
 var preview_entry_height;
@@ -13,9 +14,11 @@ $(document).ready(function() {
        click_handlers();
        setup_slideshow();
 });
+
 $( window ).resize(function() {
        resize();
 });
+
 $( window ).scroll(function() {
        scrolled = $("body").scrollTop();
        scroll_box_offset();
@@ -23,6 +26,7 @@ $( window ).scroll(function() {
 
 function resize(){
        get_dimensions();
+       basic_scaling();
        scale_start_screen();
        apply_ratio();
        
@@ -34,11 +38,59 @@ function resize(){
 
 function click_handlers(){
        get_random();
+       load_page();
        toggle_menu();
        menu_click();
        
        big_box_hover();
 }
+
+// SCROLLING FUNCTIONS
+
+
+function scroll_box_offset(){
+       var dif = $(".big_box_sub_menu").outerHeight() - scrolled;
+       if(dif >= 0){
+              $("#big_box_row").css("marginTop",-dif);  
+       }
+}
+
+
+
+
+// SCALING / RESIZING FUNCTIONS
+
+function get_dimensions(){
+       w_height = $(window).height();
+       w_width = $(document).width();
+}
+
+function basic_scaling(){
+       var set_margin = 35;
+       
+       var logo1_w = $("#logo1").width();
+       var left_margin = set_margin + logo1_w;
+       var right_margin = set_margin;
+       
+       var content_width = parseInt($(".site-inner").css("maxWidth"));
+       var needed_width = content_width + left_margin + right_margin;
+       
+       if(w_width > 1025){
+              if(w_width <= needed_width + logo1_w){
+                     $(".site-inner").css("marginLeft",left_margin);
+                     if(w_width <= needed_width){
+                            $(".site-inner").css("marginRight",right_margin);
+                     }else{
+                            $(".site-inner").css("marginRight","auto");
+                     }
+              }else{
+                     $(".site-inner").css("margin","auto");
+              }   
+       }else{
+             $(".site-inner").css("margin","auto"); 
+       }
+       
+};
 
 
 
@@ -47,27 +99,47 @@ function big_box_hover(){
        var id;
        var sub_row;
        
-       $(".big_box").hover(function(e){
-              $(this).addClass("active");
+       //show sub menu
+       var delay=200, setTimeoutConst;
+       
+       $('.big_box').hover(function() {
               
-              id =$(this).attr("id");
+              var ele = $(this);
+              setTimeoutConst = setTimeout(function(){
+                     
+                     ele.addClass("active");
+                     id = ele.attr("id");
+
+                     //z-index juggling to put the current row on top
+                     $(".big_box_sub_menu").css("zIndex",9);
+                     
+                     sub_row = $(".big_box_sub_menu."+id);
+                     sub_row.css("zIndex",10);
+
+                     show_sub_menu(sub_row);
               
-              sub_row = $(".big_box_sub_menu."+id);
+              }, delay);
+       }, function(){
+              clearTimeout(setTimeoutConst );
+       });
+
+
+       //hide sub menu
+       var delay=200, setTimeoutConst2;
+       
+       $('#big_box_row').hover(function() {
               
+              clearTimeout(setTimeoutConst2 );
               
-              $(".big_box_sub_menu").css("zIndex",9);
-              sub_row.css("zIndex",10);
+       }, function(){
               
-              show_sub_menu(sub_row);
+              setTimeoutConst2 = setTimeout(function(){
+                     hide_sub_box();
+              }, delay);
               
        });
        
        
-       $("#big_box_row").hover(function(){
-              
-       },function(){
-              hide_sub_box();
-       });
 }
 
 
@@ -112,13 +184,6 @@ function show_sub_box(){
        }
 };
 
-function scroll_box_offset(){
-       var dif = $(".big_box_sub_menu").outerHeight() - scrolled;
-       if(dif >= 0){
-              $("#big_box_row").css("marginTop",-dif);  
-       }
-}
-
 function offset_big_box(){
        
        $("#big_box_row").stop().animate({
@@ -156,16 +221,15 @@ function reset_big_box(){
               }); 
               
 };
+
+
+
 /*
 function collaps_start_screen(){
        var seperator_bot_position = $(".block_separator").offset().top;
 }
 */
 
-
-function get_dimensions(){
-       w_height = $(window).height();
-}
 
 function apply_ratio(){
        $(".has_ratio").each(function(){
@@ -210,12 +274,14 @@ function resize_thumb_area(){
 
 function justify_height(){
        preview_entry_height = 0;
-       $(".fixed_height .entry-content").each(function(){
-              if($(this).height() > preview_entry_height){
-                     preview_entry_height = $(this).height();
+       
+       $(".row.fixed_height .fixed_height").each(function(){
+              console.log($(this).height());
+              if($(this).find(".cont").height() > preview_entry_height){
+                     preview_entry_height = $(this).find(".cont").height();
               }
        });
-       $(".fixed_height .entry-content").height(preview_entry_height);
+       $(".row.fixed_height .fixed_height").height(preview_entry_height);
 }
 
 
@@ -226,6 +292,64 @@ function get_random(){
        }); 
 }
 
+
+
+
+
+var dfd = $.Deferred();
+
+var current;
+var nav;
+var current_width;
+var nav_margin;
+var menu_width;
+
+function load_page(){
+       $("#big_box_row a, .main-navigation a").on("click",function(e){
+              
+              e.preventDefault();
+              var href= $(this).attr("href");
+              
+              var classes = $(this).closest("li").attr("class");      
+              
+              
+              //look for cat_id
+              var cat_id;
+              
+              //if has data-cat_id attr
+              if( $(this).attr("data_cat_id") ){
+                     
+                     cat_id = $(this).attr("data_cat_id");
+                     ajax_load_page(href,cat_id,0);
+                     
+              }
+              //if cat_id is in class
+              else if(classes.indexOf("menu-cat-") !== -1){
+                     var s = classes.indexOf("menu-cat-");
+                     var e = classes.indexOf(" ",s);
+                     cat_id  = classes.substring(s + 9, e);
+                     
+                     
+                     if(cat_id !== ""){
+                            ajax_load_page(href,cat_id,0);
+                     }
+                     
+              }
+              // no cat -> get page/post id
+              else{
+                     var classes = $(this).closest("li").attr("class");
+                     var s = classes.indexOf("menu-id-");
+                     var e = classes.indexOf(" ",s);
+                     
+                     id  = classes.substring(s + 8,e);
+                     
+                     if(id !== ""){
+                            ajax_load_page(href,0,id);
+                     }
+              }
+              
+       });
+};
 
 function menu_click(){
        $("#menu-primary a").click(function(e, callback){
@@ -239,14 +363,6 @@ function menu_click(){
               });
        });
 }
-
-var dfd = $.Deferred();
-
-var current;
-var nav;
-var current_width;
-var nav_margin;
-var menu_width;
 
 function toggle_menu(){
               

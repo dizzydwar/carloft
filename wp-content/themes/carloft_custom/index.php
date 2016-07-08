@@ -15,12 +15,14 @@
  */
 
 get_header(); ?>
+
+
        <div class="row col-sm-12 slideshow">
               <div class="slide_content">
                      <div class="slide_container">
                             <div class="slide">                     
                                    <img src="<?php echo  get_stylesheet_directory_uri(); ?>/images/malte_jaeger_carloft-3.jpg" alt=""/>
-                                   <div class="overlay col-sm-12 col-md-6">
+                                   <div class="overlay col-xs-11 col-md-8 col-lg-6">
                                           <div class="headline-group">
                                                  <h3>CarLoggia</h3>
                                                  <h2>Erdgeschoss im 4. Stock</h2>
@@ -29,6 +31,7 @@ get_header(); ?>
 
                                    </div>
                             </div>
+                            
                             <div class="slide">                     
                                    <img src="<?php echo  get_stylesheet_directory_uri(); ?>/images/malte_jaeger_carloft-3.jpg" alt=""/>
                                    <div class="overlay col-sm-12 col-md-6">
@@ -43,10 +46,12 @@ get_header(); ?>
                      </div>
               </div>
        </div>
-       <div class="row col-sm-12" id="big_box_row">
-              <a href="<?php echo get_page_link(5); ?>" class="col-xs-12 col-sm-4 has_ratio big_box prinzip" id="prinzip" data-ratio="0.5"><?php echo get_field("titel_komplett" ,5);?></a>
-              <a href="<?php echo get_page_link(7); ?>" class="col-xs-12 col-sm-4 has_ratio big_box entwickler" id="entwickler" data-ratio="0.5"><?php echo get_field("titel_komplett" ,7);?></a>
-              <a href="<?php echo get_page_link(9); ?>" class="col-xs-12 col-sm-4 has_ratio big_box realisierung" id="realisierung" data-ratio="0.5"><?php echo get_field("titel_komplett" ,9);?></a>
+
+
+       <div class="row col-sm-12 fixed_height" id="big_box_row">
+              <div class="col-xs-4 fixed_height big_box prinzip" id="prinzip"><div class="cont"><a data_cat_id="3" href="<?php echo get_page_link(5); ?>" ><?php echo get_field("kompletter_titel" ,5);?></a></div></div>
+              <div class="col-xs-4 fixed_height big_box entwickler" id="entwickler"><div class="cont"><a data_cat_id="4" href="<?php echo get_page_link(7); ?>" ><?php echo get_field("kompletter_titel" ,7);?></a></div></div>
+              <div class="col-xs-4 fixed_height big_box realisierung" id="realisierung"><div class="cont"><a data_cat_id="5" href="<?php echo get_page_link(9); ?>" ><?php echo get_field("kompletter_titel" ,9);?></a></div></div>
               
               <div class="row col-sm-12" id="big_box_sub_row">
                      <?php get_category_post_links("prinzip",3); ?>
@@ -54,68 +59,25 @@ get_header(); ?>
                      <?php get_category_post_links("realisierung",5); ?>
               </div>
        </div>
-       <div class="col-sm-8 medium has_height">
 
-       </div>
-       <div class="col-sm-4 dark has_height">
 
-       </div>
-<?php
-function get_category_post_links($class, $id){
-       $args = "cat=".$id;
-       query_posts( $args );
-       if ( have_posts() ) : 
-              ?>
-              <ul class='row big_box_sub_menu <?php echo $class; ?>' >
-              <?php
+       <div id="page_content_box" class="row col-sm-12">
+              <div id="page_content" class="">
               
-               // Start the loop.
-               while ( have_posts() ) : the_post();
+              </div>
+       </div>
 
-                     ?>
-                     <li class="col-sm-3">
-                            <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-                     </li>
-                     <?php
 
-               endwhile;
-               echo "</ul>";
-       endif;
-       wp_reset_query();
-}
+       <div class="row col-xs-12">
+              <div class="col-sm-8 medium has_height">
+                     
+              </div>
 
-?>
-	<div id="primary" class="content-area">
-		<main id="main" class="site-main" role="main">   
-                       
-                       
-                       
-                     <div class="row">
-                            <?php 
-                            $args = 'cat=3';
-                            query_posts( $args );
-                            if ( have_posts() ) : ?>
-                                    <?php
-                                    // Start the loop.
-                                    while ( have_posts() ) : the_post();
+              <div class="col-sm-4 dark has_height">
 
-                                            /*
-                                             * Include the Post-Format-specific template for the content.
-                                             * If you want to override this in a child theme, then include a file
-                                             * called content-___.php (where ___ is the Post Format name) and that will be used instead.
-                                             */
-                                            //get_template_part( 'template-parts/content', get_post_format() );
+              </div>
+       </div>
+       
 
-                                    // End the loop.
-                                    endwhile;
-                            endif;
-                            wp_reset_query();
-                            ?>
-                     </div>
-                       
-                       
-                       
-		</main><!-- .site-main -->
-	</div><!-- .content-area -->
         
-<?php get_footer(); ?>
+<?php get_footer();

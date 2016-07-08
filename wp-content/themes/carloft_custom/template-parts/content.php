@@ -8,50 +8,45 @@
  */
 ?>
 
-<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-	<header class="entry-header">
-		<?php if ( is_sticky() && is_home() && ! is_paged() ) : ?>
-			<span class="sticky-post"><?php _e( 'Featured', 'twentysixteen' ); ?></span>
-		<?php endif; ?>
+<article id="post-<?php the_ID(); ?>" <?php post_class("row"); ?>>
 
-		<?php the_title( sprintf( '<h2 class="entry-title"><a href="%s" rel="bookmark">', esc_url( get_permalink() ) ), '</a></h2>' ); ?>
-	</header><!-- .entry-header -->
+	<div class="row col-xs-12 entry-content">
+               <div class="row col-sm-8">
+                     <h3><?php the_title();?></h3>
+                     <h1><?php echo get_field("headline");?></h1>
+                     <p class="big"><?php echo get_field("copy"); ?></p>
+               </div>
+               
+              <?php
+              if( have_rows('rows') ){
+                     // loop through rows (parent repeater)
+                     while( have_rows('rows') ): the_row(); ?>
+                            <div class="row <?php echo get_sub_field('class'); ?>">
+                                   <h1><?php the_sub_field('headline'); ?></h1>
+                                   <p class="big"><?php the_sub_field('copy'); ?></p>
 
-	<?php twentysixteen_excerpt(); ?>
+                                   <?php 
 
-	<?php twentysixteen_post_thumbnail(); ?>
+                                   // check for rows (sub repeater)
+                                   if( have_rows('images') ){?>
 
-	<div class="entry-content">
-		<?php
-			/* translators: %s: Name of current post */
-			the_content( sprintf(
-				__( 'Continue reading<span class="screen-reader-text"> "%s"</span>', 'twentysixteen' ),
-				get_the_title()
-			) );
+                                          <?php  
+                                          // loop through rows (sub repeater)
+                                          while( have_rows('images') ): the_row();
+                                          ?>
+                                          <div class="row <?php echo get_sub_field('class');?>">
+                                                 <img class="fit" src="<?php echo the_sub_field("image"); ?>"/>
+                                                 <p><?php echo get_sub_field('caption');?></p>
+                                          </div>
+                                          <?php endwhile; 
 
-			wp_link_pages( array(
-				'before'      => '<div class="page-links"><span class="page-links-title">' . __( 'Pages:', 'twentysixteen' ) . '</span>',
-				'after'       => '</div>',
-				'link_before' => '<span>',
-				'link_after'  => '</span>',
-				'pagelink'    => '<span class="screen-reader-text">' . __( 'Page', 'twentysixteen' ) . ' </span>%',
-				'separator'   => '<span class="screen-reader-text">, </span>',
-			) );
-		?>
+                                   } ?>
+                             </div>	
+
+                     <?php endwhile; // while( has_sub_field('to-do_lists') ):
+              }
+              ?>
 	</div><!-- .entry-content -->
 
-	<footer class="entry-footer">
-		<?php twentysixteen_entry_meta(); ?>
-		<?php
-			edit_post_link(
-				sprintf(
-					/* translators: %s: Name of current post */
-					__( 'Edit<span class="screen-reader-text"> "%s"</span>', 'twentysixteen' ),
-					get_the_title()
-				),
-				'<span class="edit-link">',
-				'</span>'
-			);
-		?>
-	</footer><!-- .entry-footer -->
+	
 </article><!-- #post-## -->
