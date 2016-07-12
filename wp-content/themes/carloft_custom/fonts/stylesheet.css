@@ -42,3 +42,24 @@
     font-style: normal;
 
 }
+
+@font-face {
+    font-family: 'akkurat_light';
+    src: url('akkurat_light_regular-webfont.woff2') format('woff2'),
+         url('akkurat_light_regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'akkurat_regular';
+    src: url('akkurat_regular-webfont.woff2') format('woff2'),
+         url('akkurat_regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
