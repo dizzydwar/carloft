@@ -28,20 +28,19 @@
 
 <body <?php body_class(); ?>>
        
-       
        <div id="page" class="site">
               <div class="site-inner container-fluid">
                      <div id="content" class="row site-content">
 
                             <a class="skip-link screen-reader-text" href="#content"><?php _e( 'Skip to content', 'twentysixteen' ); ?></a>
 
-                            <header id="masthead" class="site-header" >
+                            <header id="masthead" class="site-header row" >
                                    <div class="site-header-main">
 
-                                          <a href="<?php  echo home_url(); ?>" id="logo1" class=""><?php echo bloginfo("title"); ?></a>
-                                          <a href="<?php  echo home_url(); ?>" id="logo2" class=""><?php echo bloginfo("title"); ?></a>
-                                           <?php if ( has_nav_menu( 'primary' ) || has_nav_menu( 'social' ) ) : ?>
-
+                                          <a href="<?php  echo home_url(); ?>" class="logo1"><?php echo bloginfo("title"); ?></a>
+                                          <a href="<?php  echo home_url(); ?>" class="logo2"><?php echo bloginfo("title"); ?></a>
+                                          
+                                          <div id="menu_buttons">
                                                  <button id="menu-toggle" class="menu-toggle">
                                                         <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 32.7 32.7" style="enable-background:new 0 0 32.7 32.7;" xml:space="preserve">
 
@@ -53,41 +52,30 @@
 
                                                                       <rect x="5.9" y="23.4" width="20.9" height="2.1"/>
                                                                </g>
-                                                        
+
                                                         </svg>
-
                                                  </button>
+                                                 
+                                                 <button type="submit" class="search-remote-submit" ><span class="screen-reader-text"><?php echo _x( 'Search', 'submit button', 'twentysixteen' ); ?></span></button>
+                                          </div>
+                                          
 
-                                                 <div id="site-header-menu" class="site-header-menu">
-                                                        <?php if ( has_nav_menu( 'primary' ) ) : ?>
+                                          <div id="site-header-menu" class="site-header-menu">
+                                                 <?php get_search_form(); ?>    
+                                                 
+                                                 <div id="nav_clip" class="clearfix">
+                                                        <nav id="site-navigation" class="main-navigation" role="navigation" aria-label="<?php esc_attr_e( 'Primary Menu', 'twentysixteen' ); ?>">
+                                                               <?php
+                                                                      wp_nav_menu( array(
+                                                                             'theme_location' => 'primary',
+                                                                             'menu_class'     => 'primary-menu'
+                                                                      ) );
+                                                               ?>
+                                                        </nav><!-- .main-navigation -->
+                                                 </div>
 
-                                                               <div id="nav_clip">
-                                                                      <nav id="site-navigation" class="main-navigation" role="navigation" aria-label="<?php esc_attr_e( 'Primary Menu', 'twentysixteen' ); ?>">
-                                                                             <?php
-                                                                                    wp_nav_menu( array(
-                                                                                           'theme_location' => 'primary',
-                                                                                           'menu_class'     => 'primary-menu'
-                                                                                    ) );
-                                                                             ?>
-                                                                      </nav><!-- .main-navigation -->
-                                                               </div>
-                                                        <?php endif; ?>
-
-                                                        <?php if ( has_nav_menu( 'social' ) ) : ?>
-                                                               <nav id="social-navigation" class="social-navigation" role="navigation" aria-label="<?php esc_attr_e( 'Social Links Menu', 'twentysixteen' ); ?>">
-                                                                      <?php
-                                                                             wp_nav_menu( array(
-                                                                                    'theme_location' => 'social',
-                                                                                    'menu_class'     => 'social-links-menu',
-                                                                                    'depth'          => 1,
-                                                                                    'link_before'    => '<span class="screen-reader-text">',
-                                                                                    'link_after'     => '</span>',
-                                                                             ) );
-                                                                      ?>
-                                                               </nav><!-- .social-navigation -->
-                                                        <?php endif; ?>
-                                                   </div><!-- .site-header-menu -->
-                                           <?php endif; ?>
+                                            </div><!-- .site-header-menu -->
+                                            
                                    </div><!-- .site-header-main -->
 
                             </header><!-- .site-header -->

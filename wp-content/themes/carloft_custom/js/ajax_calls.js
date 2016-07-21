@@ -19,33 +19,28 @@ function ajax_get_random(){
 
 
 
-function ajax_load_page(href,cat_id,id){
+function ajax_load_page(href,id,slug){
        $.ajax({
               url: ajaxcalls.ajaxurl,
               type: 'post',
               data: {
-                     cat_id:cat_id,
                      id:id,
+                     slug:slug,
                      action: 'ajax_load_page'
               },beforeSend: function(){
-                     //AnimateRotate();
+                     //loading animation
               },
               success: function( result ) {
                      show_content(result);
+                     //$('div.wpcf7 > form').wpcf7InitForm();
+                     $('#page_content').append('<script src="http://carloft.ccetc.de/wp-content/plugins/contact-form-7/includes/js/jquery.form.js"></script>');
+                     $('#page_content').append('<script src="http://carloft.ccetc.de/wp-content/plugins/contact-form-7/includes/js/scripts.js"></script>');
                      window.history.pushState("", "", href);
               }
 	});
 }      
-       function show_content(result){
-              var container = $("#page_content_box");
-              container.find("#page_content").html(result);
-             
-              container.css("display","block");
-              
-              container.animate({
-                     opacity: 1,
-                     height:container.find("#page_content").height()
-                     }, 300, function() {
 
-                     });
-       };
+       
+       
+       
+       

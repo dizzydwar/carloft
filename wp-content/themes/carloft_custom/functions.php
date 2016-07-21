@@ -26,18 +26,6 @@ function print_pre($term){
 }
 
 
-add_action( 'wp_ajax_nopriv_ajax_get_random', 'ajax_get_random' );
-add_action( 'wp_ajax_ajax_get_random', 'ajax_get_random' );
-
-function ajax_get_random() {
-       $rows = get_field('ccetc_macht' , 31); // get all the rows
-       $rand_row = $rows[ array_rand( $rows ) ]; // get a random row
-       $rand_row_string = $rand_row['ccetc_macht' ]; // get the sub field value 
-       
-       
-       echo $rand_row_string;
-       die();
-}
 
 
 add_action( 'wp_ajax_nopriv_ajax_load_page', 'ajax_load_page' );
@@ -45,43 +33,110 @@ add_action( 'wp_ajax_ajax_load_page', 'ajax_load_page' );
 
 function ajax_load_page() {
        
-       $cat_id = $_POST[cat_id];
        $id = $_POST[id];
+       $slug = $_POST[slug];
+
+       global $post;
        
-       if($cat_id != 0){
-              global $post;
-              $args = array('category' => $cat_id );
-              $myposts = get_posts( $args );
-              foreach( $myposts as $post ) :  setup_postdata($post);
-                     get_template_part( 'template-parts/content', get_post_format() );
+       // by name       
+       if(!empty($slug)){
+              // Category
+              if(get_category_by_slug($slug)){
+                     $args = array('category_name' => $slug );
+                     $myposts = get_posts( $args );
+                     foreach( $myposts as $post ) :  setup_postdata($post);
+                            get_template_part( 'template-parts/content', get_post_format() );
+                     endforeach; 
+              }
+              //post
+              else if(get_page_by_path($slug,OBJECT,"post")){
+                     $post = get_page_by_path($slug,OBJECT,"post");
                      
-              endforeach;
-       }else if($id != 0){
-              global $post;
-              
-              $post = get_post( $id );
-              setup_postdata($post);
-              get_template_part( 'template-parts/content', get_post_format() );
-              
+                     setup_postdata($post);
+                     get_template_part( 'template-parts/content', get_post_format() );    
+              }
+              //page
+              else{
+                     $post = get_page_by_path($slug,OBJECT,"page");
+                     
+                     setup_postdata($post);
+                     
+                     get_template_part( 'template-parts/content', get_post_format() );    
+              }
        }
-      
+       // by ID
+       else{
+              // category
+              if(get_category($id)){
+                     $args = array('category' => $id );
+                     $myposts = get_posts( $args );
+                     foreach( $myposts as $post ) :  setup_postdata($post);
+                            get_template_part( 'template-parts/content', get_post_format() );
+                     endforeach; 
+              }
+              // post
+              else{
+                     $post = get_page($id);
+                     setup_postdata($post);
+                     
+                     get_template_part( 'template-parts/content', get_post_format() ); 
+              } 
+       }       
+       wp_reset_postdata();
        die();
 }
+
 
 function get_category_post_links($class, $id){
        $args = "cat=".$id;
        query_posts( $args );
        if ( have_posts() ) : 
               ?>
-              <ul class='row big_box_sub_menu <?php echo $class; ?>' >
+              <ul class='row big_box_sub_menu <?php echo  $class." cat_id_".$id; ?>' >
+              <?php
+
+                     // Start the loop.
+                     while ( have_posts() ) : the_post();
+                           ?>
+                           <li class="col-xs-6 col-sm-3">
+                                  <a data_cat_id="<?php echo $id; ?>" data_anchor="<?php echo the_ID(); ?>" href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                           </li>
+                           <?php
+
+                     endwhile;
+                     ?>
+              </ul>
+              <?php
+       endif;
+       wp_reset_query();
+}
+
+function load_news($slug = ""){
+       
+       $args = array( 'cat' => 6, "posts_per_page" => 3);
+       
+       if($slug !== ""){
+              $args = array( 'category_name' => 'news+'.$slug );
+       }
+       
+       query_posts( $args );
+       if ( have_posts() ) : 
+              ?>
+              <ul class='row col-xs-12'>
               <?php
               
                // Start the loop.
                while ( have_posts() ) : the_post();
-
+                     // space after menu-id- for jquery index of end point (" ")
                      ?>
-                     <li class="col-sm-3">
-                            <a data_cat_id="<?php echo $id; ?>" data_anchor="<?php echo the_ID(); ?>" href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                     <li class="menu-id-<?php echo the_ID(); ?> ">
+                            <a href="<?php the_permalink(); ?>">
+                                   <div class="row">
+                                          <p class='date'><?php the_date("j. M Y  |  G:i"); ?></p>
+                                          <h3><?php the_title(); ?></h3>
+                                   </div>
+                                   <p><?php echo substr(get_field("copy"), 0, 150);?></p>
+                            </a>
                      </li>
                      <?php
 
@@ -91,15 +146,36 @@ function get_category_post_links($class, $id){
        wp_reset_query();
 }
 
-/*
-function wpa_category_nav_class( $classes, $item ){
+function load_projects(){
        
-       $cat = get_field("kategorie",$item->object_id);
-       if(!empty($cat)){
-              $classes[] = 'menu-cat-' . $cat;
-       }
+       $args = array( 'cat' => 7);
        
-       return $classes;
+       query_posts( $args );
+       if ( have_posts() ) : 
+              ?>
+              <div class="row slideshow">
+                     <div class="slide_content">
+                            <div class="slide_container">
+                                   <?php
+                                    while ( have_posts() ) : the_post();
+                                          ?>
+                                          <div class="slide">   
+                                                 <?php the_post_thumbnail(); ?>
+                                                 <div class="overlay col-xs-6">
+                                                        <div class="headline-group">
+                                                               <h3>Projekte</h3>
+                                                               <h2 class="menu-id-<?php echo the_ID(); ?> headline"><a  href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+                                                               <p class="copy"><?php echo substr(get_field("subline"), 0, 150);?></p>
+                                                        </div>
+                                                 </div>
+                                          </div>
+                                          <?php
+                                    endwhile;
+                                    ?>
+                            </div>
+                     </div>
+              </div>
+              <?php
+       endif;
+       wp_reset_query();
 }
-add_filter( 'nav_menu_css_class', 'wpa_category_nav_class', 10, 2 );
-*/
