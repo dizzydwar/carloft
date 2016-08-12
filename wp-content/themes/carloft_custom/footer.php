@@ -10,40 +10,50 @@
  */
 ?>
 
+                                   <div class="row no-pad">
+                                          <div class="col-sm-8 has_ratio projects no-pad" data-ratio-xs="1" data-ratio-sm="0.6">
+                                                 <?php load_projects(); ?>
+                                          </div>
 
+                                          <div class="col-sm-4 has_ratio news no-pad" data-ratio-sm="1.2">
+                                                 <?php load_news(); ?>
+                                          </div>
+                                   </div>
                             </div><!-- #content -->
 
-                            <footer id="colophon" class="site-footer row col-xs-12" role="contentinfo">
-                                   <div class="row col-xs-4 clearfix logos">
-                                          <a href="<?php  echo home_url(); ?>" class="logo1"><?php echo bloginfo("title"); ?></a>
-                                          <a href="<?php  echo home_url(); ?>" class="logo2"><?php echo bloginfo("title"); ?></a>
-                                   </div>
-                                   <div class="row col-xs-12 col-sm-4">
-                                          <?php if ( has_nav_menu( 'primary' ) ) : ?>
-                                                  <nav class="main-navigation" role="navigation" aria-label="<?php esc_attr_e( 'Footer Primary Menu', 'twentysixteen' ); ?>">
-                                                          <?php
-                                                                  wp_nav_menu( array(
-                                                                          'theme_location' => 'primary',
-                                                                          'menu_class'     => 'primary-menu',
-                                                                   ) );
-                                                          ?>
-                                                  </nav><!-- .main-navigation -->
-                                          <?php endif; ?>
-                                   </div>
-                                   <div class="row col-xs-12 col-sm-4">
-                                          <?php if ( has_nav_menu( 'social' ) ) : ?>
-                                                  <nav class="social-navigation" role="navigation" aria-label="<?php esc_attr_e( 'Footer Social Links Menu', 'twentysixteen' ); ?>">
-                                                          <?php
-                                                                  wp_nav_menu( array(
-                                                                          'theme_location' => 'social',
-                                                                          'menu_class'     => 'social-links-menu',
-                                                                          'depth'          => 1,
-                                                                          'link_before'    => '<span class="screen-reader-text">',
-                                                                          'link_after'     => '</span>',
-                                                                  ) );
-                                                          ?>
-                                                  </nav><!-- .social-navigation -->
-                                          <?php endif; ?>
+                            <footer id="colophon" class="site-footer" role="contentinfo">
+                                   <div class="row">
+                                          <div class="col-xs-4 clearfix logos">
+                                                 <a href="<?php  echo home_url(); ?>" class="logo1"><?php echo bloginfo("title"); ?></a>
+                                                 <a href="<?php  echo home_url(); ?>" class="logo2"><?php echo bloginfo("title"); ?></a>
+                                          </div>
+                                          <div class="col-xs-12 col-sm-4">
+                                                 <?php if ( has_nav_menu( 'primary' ) ) : ?>
+                                                         <nav class="main-navigation" role="navigation" aria-label="<?php esc_attr_e( 'Footer Primary Menu', 'twentysixteen' ); ?>">
+                                                                 <?php
+                                                                         wp_nav_menu( array(
+                                                                                 'theme_location' => 'primary',
+                                                                                 'menu_class'     => 'primary-menu',
+                                                                          ) );
+                                                                 ?>
+                                                         </nav><!-- .main-navigation -->
+                                                 <?php endif; ?>
+                                          </div>
+                                          <div class="col-xs-12 col-sm-4">
+                                                 <?php if ( has_nav_menu( 'social' ) ) : ?>
+                                                         <nav class="social-navigation" role="navigation" aria-label="<?php esc_attr_e( 'Footer Social Links Menu', 'twentysixteen' ); ?>">
+                                                                 <?php
+                                                                         wp_nav_menu( array(
+                                                                                 'theme_location' => 'social',
+                                                                                 'menu_class'     => 'social-links-menu',
+                                                                                 'depth'          => 1,
+                                                                                 'link_before'    => '<span class="screen-reader-text">',
+                                                                                 'link_after'     => '</span>',
+                                                                         ) );
+                                                                 ?>
+                                                         </nav><!-- .social-navigation -->
+                                                 <?php endif; ?>
+                                          </div>
                                    </div>
                             </footer><!-- .site-footer -->
 

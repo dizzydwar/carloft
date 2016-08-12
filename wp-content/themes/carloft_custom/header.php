@@ -30,16 +30,19 @@
        
        <div id="page" class="site">
               <div class="site-inner container-fluid">
-                     <div id="content" class="row site-content">
+                     <div id="content" class="site-content">
 
                             <a class="skip-link screen-reader-text" href="#content"><?php _e( 'Skip to content', 'twentysixteen' ); ?></a>
 
-                            <header id="masthead" class="site-header row" >
+                            <header id="masthead" class="site-header clearfix" >
                                    <div class="site-header-main">
 
+                                          
                                           <a href="<?php  echo home_url(); ?>" class="logo1"><?php echo bloginfo("title"); ?></a>
                                           <a href="<?php  echo home_url(); ?>" class="logo2"><?php echo bloginfo("title"); ?></a>
-                                          
+                                          <!--
+                                          <a href="<?php  echo home_url(); ?>" class="logo"><?php echo bloginfo("title"); ?></a>
+                                          -->
                                           <div id="menu_buttons">
                                                  <button id="menu-toggle" class="menu-toggle">
                                                         <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 32.7 32.7" style="enable-background:new 0 0 32.7 32.7;" xml:space="preserve">

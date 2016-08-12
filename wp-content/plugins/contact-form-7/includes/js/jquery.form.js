@@ -849,6 +849,7 @@ $.fn.ajaxSubmit = function(options) {
  * the form itself.
  */
 $.fn.ajaxForm = function(options) {
+    log("ajaxForm");
     options = options || {};
     options.delegation = options.delegation && $.isFunction($.fn.on);
 
@@ -883,6 +884,7 @@ $.fn.ajaxForm = function(options) {
 
 // private event handlers
 function doAjaxSubmit(e) {
+       log("doAjaxSubmit");
     /*jshint validthis:true */
     var options = e.data;
     if (!e.isDefaultPrevented()) { // if event has been canceled, don't proceed
